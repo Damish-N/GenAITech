@@ -28,7 +28,7 @@ namespace GenAITech.Models
         public async Task<IActionResult> Index()
         {
               return _context.GenAI != null ? 
-                          View(await _context.GenAI.ToListAsync()) :
+                          View(await _context.GenAI.OrderByDescending(x=>x.Like).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GenAI'  is null.");
         }
 
@@ -76,6 +76,7 @@ namespace GenAITech.Models
                         await genAI.ImageFile.CopyToAsync(fileStream);
                     }
                 }
+                genAI.AnchorLink = "Home/GenAiSites#Bard_tumbinal";
                 _context.Add(genAI);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

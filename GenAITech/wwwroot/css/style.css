@@ -329,10 +329,24 @@ background: linear-gradient(to bottom,  #faac68 0%,#fbbc89 100%); /* W3C, IE10+,
     flex-direction: column;
     align-items: stretch;
     height: 100vh;
-    justify-content: space-around;
+    justify-content: space-evenly;
 
 }
 
 .form-group{
     margin:1.9%;
+}
+
+/* Delete Page */
+.dt-label{
+    color:white;
+}
+
+.delete-h3 {
+    color: yellow;
+    font-size:25px;
+    text-align: left;
+    padding:5px;
+    border-top: solid 2px yellow;
+    border-bottom: solid 2px yellow;
 }
