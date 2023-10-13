@@ -1,4 +1,7 @@
-﻿@model IEnumerable<GenAITech.Models.GenAI>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<GenAITech.Models.GenAI>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -47,11 +50,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Dislike)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                @if (@User.Identity?.Name=="admin@asp.net")
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    </td>
+                    
+                }
+               
+            
         </tr>
 }
     </tbody>

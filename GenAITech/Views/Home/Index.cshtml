@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using GenAITech
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
@@ -11,7 +12,9 @@
         <h1 class="display-4">Welcome</h1>
         <p>Logged as @User.Identity?.Name.</p>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="nav-link text-dark" asp-controller="GenAIs" asp-action="Create">
+                Click here to add a new generative AI website.
+            </a>
         </li>
     </div>
 }
