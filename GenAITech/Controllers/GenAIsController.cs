@@ -179,6 +179,23 @@ namespace GenAITech.Models
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> IncrementLike(int id, int newLikeCount)
+        {
+            var genAI = await _context.GenAI.FindAsync(id);
+
+            if (genAI == null)
+            {
+                return NotFound();
+            }
+
+            genAI.Like = newLikeCount;
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
         private bool GenAIExists(int id)
         {
           return (_context.GenAI?.Any(e => e.Id == id)).GetValueOrDefault();

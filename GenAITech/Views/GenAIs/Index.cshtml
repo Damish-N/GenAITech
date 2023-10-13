@@ -30,7 +30,7 @@
                             @if (@User.Identity?.Name == "admin@asp.net")
                             {
                                 <div>
-                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like (@item.Like)</a>
+                                    <a data-id="@item.Id"  class="btn btn-primary">Like (@item.Like)</a>
                                     <a href="@Url.Action("Edit", "GenAIs", new { id = item.Id })" class="btn btn-success">Edit</a>
                                     <a href="@Url.Action("Delete", "GenAIs", new { id = item.Id })" class="btn btn-danger">Delete</a>
 
@@ -40,8 +40,8 @@
                             else
                             {
                                 <div>
-                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like</a>
-           
+                                    <a data-id="@item.Id"  class="btn btn-primary">Like (@item.Like)</a>
+
                                 </div>
 
                             }
@@ -53,6 +53,36 @@
         }
     </div>
 </div>
+
+
+
+
+<script>
+    document.querySelectorAll('.btn-primary').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            let currentLike = parseInt(button.innerText.match(/\d+/)[0]);
+            let newLike = currentLike + 1;
+            button.innerText = `Like (${newLike})`;
+
+            let itemId = button.getAttribute('data-id');
+
+            // Make an AJAX call to update the database
+            // Example AJAX call using fetch
+            fetch(`/GenAIs/IncrementLike?id=${itemId}&newLikeCount=${newLike}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
+
 
 
 
