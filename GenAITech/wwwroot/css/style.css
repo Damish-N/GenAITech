@@ -289,3 +289,47 @@ background: linear-gradient(to bottom,  #faac68 0%,#fbbc89 100%); /* W3C, IE10+,
 .custom-tile:hover .tile-image {
     display: block;
 }
+
+.custom-h1{
+    text-align:center;
+    font-family: 'Anton', sans-serif;
+    font-size: 2vw;
+    background-image: linear-gradient(to right, yellow, yellow, yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.custom-label{
+    color:white;
+}
+
+.parallax-container-list{
+    padding:60px 10px;
+}
+
+.parallax-container-list-a {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    width:100%;
+    color: white;
+    text-align:center;
+    padding:15px;
+}
+
+.Add-new-Ai {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100vh;
+    justify-content: space-around;
+
+}
+
+.form-group{
+    margin:1.9%;
+}

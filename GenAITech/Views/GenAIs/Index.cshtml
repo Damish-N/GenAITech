@@ -4,15 +4,18 @@
 @model IEnumerable<GenAITech.Models.GenAI>
 
 <style>
-  
+    .name-clicked{
+        padding:15px;
+        text-align:center;
+        color:white
+    }
 </style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div>
-    <h2>GenAI List</h2>
+
+<div class="parallax-container">
+    <h1 class="main-heading">Generative AI Technology</h1>
     <div class="row">
+            <a class="name-clicked" asp-action="Create">Click Here to add new genrate AI website</a>
         @foreach (var item in Model)
         {
             <div class="col-lg-12 custom-block-content-container">
@@ -27,7 +30,7 @@
                             @if (@User.Identity?.Name == "admin@asp.net")
                             {
                                 <div>
-                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like</a>
+                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like (@item.Like)</a>
                                     <a href="@Url.Action("Edit", "GenAIs", new { id = item.Id })" class="btn btn-success">Edit</a>
                                     <a href="@Url.Action("Delete", "GenAIs", new { id = item.Id })" class="btn btn-danger">Delete</a>
 
