@@ -1,10 +1,56 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using GenAITech
+@model IEnumerable<GenAITech.Models.GenAI>
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<style>
+    .custom-tile {
+        position: relative;
+        background-color: #d2b48c;
+        transition: background-color 0.5s;
+        padding: 20px;
+        text-align: center;
+        height: 200px;
+    }
+
+        .custom-tile:hover {
+            background-color: #a78c64;
+        }
+
+    .tile-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        color: #fff;
+        transition: opacity 0.5s;
+        opacity: 1;
+    }
+
+    .custom-tile:hover .tile-title {
+        opacity: 0;
+    }
+
+    .tile-image {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .custom-tile:hover .tile-image {
+        display: block;
+    }
+</style>
+
+
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -25,4 +71,45 @@ else
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>
 }
+
+<div class="container">
+    <h2>GenAI List</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-2 mb-4">
+                <a href="@Url.Action("Index", "GenAIs")">
+                <div class="custom-tile">
+                    <p class="tile-title">@item.GenAIName</p>
+                    <img src="~/images/@item.ImageFilename" class="tile-image" alt="GenAI Image">
+                </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    document.querySelectorAll('.fade-in').forEach(element => {
+        element.addEventListener('mouseover', () => {
+            element.style.opacity = '1';
+        });
+        element.addEventListener('click', () => {
+            window.location.href = "GenAIs";
+        });
+    });
+
+    document.querySelectorAll('.custom-tile').forEach(element => {
+        element.addEventListener('click', () => {
+            console.log("Test");
+        });
+    });
+ 
+</script>
 
