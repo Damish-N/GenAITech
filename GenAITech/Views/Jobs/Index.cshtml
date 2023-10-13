@@ -1,0 +1,119 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GenAITech
+@using Newtonsoft.Json;
+@model IEnumerable<GenAITech.Models.JobData>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Jobs Page";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        background-color: blue;
+        color: yellow;
+        padding: 8px;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr {
+        background-color: #f2f2f2;
+    }
+
+    .index {
+        color: yellow;
+        font-weight: bold;
+
+    }
+</style>
+<div class="parallax-container-job">
+    <h1 class="main-heading">AI Jobs</h1>
+    <h3 class="sub-heading-jobs">
+        Ai Jobs dataset:AI Jobs
+        Python source for table  and charts Kaggle
+    </h3>
+    <div class="container job-container">
+
+        <table>
+            <tr>
+                <th>Index</th>
+                <th>Work Year</th>
+                <th>Experience Level</th>
+                <th>Employment Type</th>
+                <th>Job Title</th>
+                <th>Salary</th>
+                <th>Salary Currency</th>
+                <th>Salary in USD</th>
+                <th>Employee Residence</th>
+                <th>Remote Ratio</th>
+                <th>Company Location</th>
+                <th>Company Size</th>
+            </tr>
+
+            @foreach (var item in ViewBag.TopCompanies )
+            {
+                <tr>
+                    <td class="index">1</td>
+                    <td>@item.work_year</td>
+                    <td>@item.experience_level</td>
+                    <td>@item.employment_type</td>
+                    <td>@item.job_title</td>
+                    <td>@item.salary</td>
+                    <td>@item.salary_currency</td>
+                    <td>@item.salary_in_usd</td>
+                    <td>@item.employee_residence</td>
+                    <td>@item.remote_ratio</td>
+                    <td>@item.company_location</td>
+                    <td>@item.company_size</td>
+                </tr>
+            }
+        </table>
+        <div style="width: 50%;">
+            <canvas id="jobTitleChart"></canvas>
+        </div>
+    </div>
+ </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('jobTitleChart').getContext('2d');
+    var topJobTitlesBySalary = @Html.Raw(JsonConvert.SerializeObject(ViewBag.TopJobTitlesBySalary));
+    var jobTitleChart = new Chart(ctx, {
+        type: 'pie', // Set the chart type to 'pie'
+        data: {
+            labels: Object.keys(topJobTitlesBySalary),
+            datasets: [{
+                label: 'Average Salary',
+                data: Object.values(topJobTitlesBySalary),
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#8A2BE2',
+                    '#7FFF00',
+                    '#FFA500',
+                    '#DC143C',
+                    '#00BFFF',
+                    '#FFD700',
+                    '#4B0082'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true // Make the chart responsive
+        }
+    });
+</script>
+

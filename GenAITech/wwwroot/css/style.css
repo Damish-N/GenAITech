@@ -350,3 +350,19 @@ background: linear-gradient(to bottom,  #faac68 0%,#fbbc89 100%); /* W3C, IE10+,
     border-top: solid 2px yellow;
     border-bottom: solid 2px yellow;
 }
+
+.sub-heading-jobs {
+    color: white;
+    text-align: center;
+    word-wrap: break-word;
+}
+.parallax-container-job {
+    background-image: url("/images/background/bg1.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height:100vh;
+}
+.job-container {
+
+}
