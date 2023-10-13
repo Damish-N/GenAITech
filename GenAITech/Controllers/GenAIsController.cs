@@ -113,7 +113,7 @@ namespace GenAITech.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,GenAIName,Summary,ImageFilename,AnchorLink,Like,Dislike")] GenAI genAI)
+        public async Task<IActionResult> Edit(int id, GenAI genAI)
         {
             if (id != genAI.Id)
             {
@@ -124,6 +124,18 @@ namespace GenAITech.Models
             {
                 try
                 {
+                    if (genAI.ImageFile != null)
+                    {
+                        var uniqueFileName = GetUniqueFileName(genAI.ImageFile.FileName);
+                        var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                        var filePath = Path.Combine(uploads, uniqueFileName);
+                        genAI.ImageFilename = uniqueFileName;
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await genAI.ImageFile.CopyToAsync(fileStream);
+                        }
+                    }
+                    genAI.AnchorLink = "Home/GenAiSites#Bard_tumbinal";
                     _context.Update(genAI);
                     await _context.SaveChangesAsync();
                 }
