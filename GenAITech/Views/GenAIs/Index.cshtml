@@ -2,73 +2,55 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @model IEnumerable<GenAITech.Models.GenAI>
+
+<style>
+  
+</style>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GenAIName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Summary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFilename)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnchorLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Like)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dislike)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GenAIName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageFilename)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnchorLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Like)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dislike)
-            </td>
-                @if (@User.Identity?.Name=="admin@asp.net")
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    </td>
-                    
-                }
-               
-            
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <h2>GenAI List</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-12">
+                <div class="custom-block">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <img src="~/images/@item.ImageFilename" class="img-fluid" alt="GenAI Image">
+                        </div>
+                        <div class="col-lg-8 custom-block-content">
+                            <h3>@item.GenAIName</h3>
+                            <p>@item.Summary</p>
+                            @if (@User.Identity?.Name == "admin@asp.net")
+                            {
+                                <div>
+                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like</a>
+                                    <a href="@Url.Action("Edit", "GenAIs", new { id = item.Id })" class="btn btn-success">Edit</a>
+                                    <a href="@Url.Action("Delete", "GenAIs", new { id = item.Id })" class="btn btn-danger">Delete</a>
+
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div>
+                                    <a href="@Url.Action("Details", "GenAIs", new { id = item.Id })" class="btn btn-primary">Like</a>
+           
+                                </div>
+
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
 
