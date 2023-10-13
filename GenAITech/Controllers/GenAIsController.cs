@@ -6,16 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GenAITech.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GenAITech.Models
 {
     public class GenAIsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public GenAIsController(ApplicationDbContext context)
+    
+        public GenAIsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: GenAIs
@@ -55,16 +61,35 @@ namespace GenAITech.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GenAIName,Summary,ImageFilename,AnchorLink,Like,Dislike")] GenAI genAI)
+        public async Task<IActionResult> Create(GenAI genAI)
         {
             if (ModelState.IsValid)
             {
+                if (genAI.ImageFile != null)
+                {
+                    var uniqueFileName = GetUniqueFileName(genAI.ImageFile.FileName);
+                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    var filePath = Path.Combine(uploads, uniqueFileName);
+                    genAI.ImageFilename = uniqueFileName;
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await genAI.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
                 _context.Add(genAI);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(genAI);
         }
+        private string GetUniqueFileName(string fileName)
+{
+    fileName = Path.GetFileName(fileName);
+    return Path.GetFileNameWithoutExtension(fileName)
+           + "_"
+           + Guid.NewGuid().ToString().Substring(0, 4)
+           + Path.GetExtension(fileName);
+}
 
         // GET: GenAIs/Edit/5
         public async Task<IActionResult> Edit(int? id)
