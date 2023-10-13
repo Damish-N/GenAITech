@@ -8,46 +8,7 @@
 }
 
 <style>
-    .custom-tile {
-        position: relative;
-        background-color: #d2b48c;
-        transition: background-color 0.5s;
-        padding: 20px;
-        text-align: center;
-        height: 200px;
-    }
-
-        .custom-tile:hover {
-            background-color: #a78c64;
-        }
-
-    .tile-title {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 20px;
-        color: #fff;
-        transition: opacity 0.5s;
-        opacity: 1;
-    }
-
-    .custom-tile:hover .tile-title {
-        opacity: 0;
-    }
-
-    .tile-image {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-    }
-
-    .custom-tile:hover .tile-image {
-        display: block;
-    }
+    
 </style>
 
 
@@ -71,37 +32,32 @@
             </div>
         </div>
     </div>
-    <div class="card-section">
-    <div class="blog-card">
-        <div class="description">
-            <h1>
-                GenAI Tools
-            </h1>
-            <p>
-                Generative AI tools refer to software or systems that use neural network techniques to
-                process and comprehend input data, subsequently producing meaningful responses.
-                Scribehow
-            </p>
-            <div class="read-more">
-                <a href="#">Read More</a>
-            </div>
-        </div>
-        <div class="images">
-            <div class="image-1">
-                <img src="@Url.Content("/images/genaisites/bard_thumbnail.jpg")"
-                     alt="" />
-            </div>
-            <div class="image-2">
-                <img src="@Url.Content("/images/genaisites/midjourney_thumbnail.jpg")"
-                     alt="" />
-            </div>
-        </div>
-    </div>
-</div>
     <div class="parallax-container ">
-
-
-        <div class="card-section">
+        <div class="blog-card">
+            <div class="description">
+                <h1>
+                    GenAI Tools
+                </h1>
+                <p>
+                    Generative AI tools refer to software or systems that use neural network techniques to
+                    process and comprehend input data, subsequently producing meaningful responses.
+                    Scribehow
+                </p>
+                <div class="read-more">
+                    <a href="#">Read More</a>
+                </div>
+            </div>
+            <div class="images">
+                <div class="image-1">
+                    <img src="@Url.Content("/images/genaisites/bard_thumbnail.jpg")"
+                         alt="" />
+                </div>
+                <div class="image-2">
+                    <img src="@Url.Content("/images/genaisites/midjourney_thumbnail.jpg")"
+                         alt="" />
+                </div>
+            </div>
+        </div>
             <div class="blog-card">
                 <div class="images">
                     <div class="image-1">
@@ -129,8 +85,6 @@
                 </div>
 
             </div>
-        </div>
-
         <div class="blog-card">
             <div class="description">
                 <h1>
@@ -185,10 +139,24 @@
             </div>
 
         </div>
+        <a>Please login or register to add a new generative AI website.</a>
+
+        <h2>GenAI List</h2>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-2 mb-4">
+                    <a href="@Url.Action("Index", "GenAIs")">
+                        <div class="custom-tile">
+                            <p class="tile-title">@item.GenAIName</p>
+                            <img src="~/images/@item.ImageFilename" class="tile-image" alt="GenAI Image">
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
 
     </div>
-
-
 }
 else
 {
@@ -209,7 +177,10 @@ else
             </div>
         </div>
     </div>
-    <div class="card-section">
+   
+        
+  
+    <div class="parallax-container ">
         <div class="blog-card">
             <div class="description">
                 <h1>
@@ -235,11 +206,6 @@ else
                 </div>
             </div>
         </div>
-    </div>
-    <div class="parallax-container ">
-
-
-        <div class="card-section">
             <div class="blog-card">
                 <div class="images">
                     <div class="image-1">
@@ -267,7 +233,6 @@ else
                 </div>
 
             </div>
-        </div>
 
         <div class="blog-card">
             <div class="description">
@@ -324,25 +289,25 @@ else
 
         </div>
         <a >Please login or register to add a new generative AI website.</a>
-
+        
+            <h2>GenAI List</h2>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-6 col-md-4 col-lg-2 mb-4">
+                        <a href="@Url.Action("Index", "GenAIs")">
+                            <div class="custom-tile">
+                                <p class="tile-title">@item.GenAIName</p>
+                                <img src="~/images/@item.ImageFilename" class="tile-image" alt="GenAI Image">
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        
     </div>
 }
-<div class="container">
-    <h2>GenAI List</h2>
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <a href="@Url.Action("Index", "GenAIs")">
-                <div class="custom-tile">
-                    <p class="tile-title">@item.GenAIName</p>
-                    <img src="~/images/@item.ImageFilename" class="tile-image" alt="GenAI Image">
-                </div>
-                </a>
-            </div>
-        }
-    </div>
-</div>
+
 
 
 

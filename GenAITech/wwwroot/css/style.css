@@ -68,7 +68,7 @@
     }
 
 .hero-section {
-    
+    margin-bottom: -80px;
 }
 
 #background-video {
@@ -129,8 +129,7 @@
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
-    padding-top: 150px;
-    padding-bottom: 50px;
+  
 }
 
 .card-section {
@@ -227,8 +226,11 @@
         height: auto;
     }
 
-.custom-block-content {
-    padding: 15px;
+.custom-block-content-container {
+    
+   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#faac68+0,fbbc89+100 */
+background: linear-gradient(to bottom,  #faac68 0%,#fbbc89 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
 }
 
     .custom-block-content h3 {
@@ -242,4 +244,48 @@
 
     .custom-block-content .btn {
         margin-right: 10px;
-    }}
+    }
+
+
+.custom-tile {
+    position: relative;
+    background-color: #d2b48c;
+    transition: background-color 0.5s;
+    padding: 20px;
+    text-align: center;
+    height: 200px;
+    background: linear-gradient(to right, #a1a1a1 0%, #ffffff 50%, #a1a1a1 100%);
+}
+}
+
+    .custom-tile:hover {
+        background-color: #a78c64;
+    }
+
+.tile-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: blue;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.custom-tile:hover .tile-title {
+    opacity: 0;
+}
+
+.tile-image {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.custom-tile:hover .tile-image {
+    display: block;
+}
