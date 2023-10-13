@@ -1,21 +1,29 @@
-﻿using GenAITech.Models;
+﻿using GenAITech.Data;
+using GenAITech.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace GenAITech.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+            
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
+            
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            return _context.GenAI != null ?
+                         View(await _context.GenAI.ToListAsync()) :
+                         Problem("Entity set 'ApplicationDbContext.GenAI'  is null.");
         }
 
         public IActionResult Privacy()

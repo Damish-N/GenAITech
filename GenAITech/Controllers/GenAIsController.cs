@@ -6,23 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GenAITech.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GenAITech.Models
 {
     public class GenAIsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public GenAIsController(ApplicationDbContext context)
+    
+        public GenAIsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: GenAIs
         public async Task<IActionResult> Index()
         {
               return _context.GenAI != null ? 
-                          View(await _context.GenAI.ToListAsync()) :
+                          View(await _context.GenAI.OrderByDescending(x=>x.Like).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.GenAI'  is null.");
         }
 
@@ -55,16 +61,36 @@ namespace GenAITech.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GenAIName,Summary,ImageFilename,AnchorLink,Like,Dislike")] GenAI genAI)
+        public async Task<IActionResult> Create(GenAI genAI)
         {
             if (ModelState.IsValid)
             {
+                if (genAI.ImageFile != null)
+                {
+                    var uniqueFileName = GetUniqueFileName(genAI.ImageFile.FileName);
+                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    var filePath = Path.Combine(uploads, uniqueFileName);
+                    genAI.ImageFilename = uniqueFileName;
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await genAI.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
+                genAI.AnchorLink = "Home/GenAiSites#Bard_tumbinal";
                 _context.Add(genAI);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(genAI);
         }
+        private string GetUniqueFileName(string fileName)
+{
+    fileName = Path.GetFileName(fileName);
+    return Path.GetFileNameWithoutExtension(fileName)
+           + "_"
+           + Guid.NewGuid().ToString().Substring(0, 4)
+           + Path.GetExtension(fileName);
+}
 
         // GET: GenAIs/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -152,6 +178,23 @@ namespace GenAITech.Models
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> IncrementLike(int id, int newLikeCount)
+        {
+            var genAI = await _context.GenAI.FindAsync(id);
+
+            if (genAI == null)
+            {
+                return NotFound();
+            }
+
+            genAI.Like = newLikeCount;
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
         }
 
         private bool GenAIExists(int id)
