@@ -361,7 +361,6 @@ background: linear-gradient(to bottom,  #faac68 0%,#fbbc89 100%); /* W3C, IE10+,
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
-    height:100vh;
 }
 .job-container {
 

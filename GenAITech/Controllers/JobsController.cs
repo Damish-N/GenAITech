@@ -58,6 +58,16 @@ namespace GenAITech.Controllers
 
             ViewBag.TopCompanies = top5Companies;
 
+            var currentYear = DateTime.Now.Year;
+            var salaryTotals = new Dictionary<int, decimal>();
+            for (int year = currentYear - 3; year <= currentYear; year++)
+            {
+                decimal totalSalary = jobDataList.Where(j => j.work_year == year.ToString())
+                                                 .Sum(j => j.salary);
+                salaryTotals.Add(year, totalSalary);
+            }
+            ViewBag.SalaryTotals = salaryTotals;
+
             return View(top5Companies);
 
 
